@@ -1,0 +1,138 @@
+---
+title: "Gráficos básicos"
+author: "Linda Estefany Bravo López"
+date: "13/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Unidad 5. Análisis y visualización de datos.
+
+#Gráficos básicos.
+
+## Dataset.
+
+```{r,eval=FALSE, warning=FALSE, message=FALSE}
+installed.packages("palmerpenguins")
+```
+```{r, warning=FALSE, message=FALSE}
+library(palmerpenguins)
+```
+
+## Paquetes de trabajo
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+install.packages("ggplot2")
+```
+```{r,eval=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+```
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+install.packages("RColorBrewer")
+```
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+library(RColorBrewer)
+```
+
+
+
+## Importación de la matriz.
+```{r}
+BD<-penguins
+```
+
+## Exploración de la matriz.
+1.- Dimensión.
+```{r}
+dim(BD)
+```
+2.- Nombre de las columnas.
+```{r}
+colnames(BD)
+```
+3.- Clase a la que pertenece la matriz.
+```{r}
+class(BD)
+```
+4.- Estructura interna.
+```{r}
+str(BD)
+```
+*NOTA:*
+**intger** (int): adquieren valores enteros. (Variables cuantitativas discretas)
+**numeric** (num): adquieren valores enteros y con decimal. (Variables cuantitativas continuas )
+
+5. Estadística descriptiva básica.
+```{r}
+summary(BD)
+```
+6.- Identificación de datos faltantes **(NA)**
+```{r}
+anyNA(BD)
+```
+7.- Tratamiento de NA´s mediante el reemplazo del dato por la media.
+7.1.- Trabajar sobre una nueva matriz de datos.
+```{r}
+BD1<-BD
+```
+
+7.2.- Conocer la media aritmética.
+```{r}
+mean(BD$bill_length_mm, na.rm = TRUE)
+```
+7.3.- Reemplazar el valor perdido por la media.
+```{r}
+BD1$bill_length_mm_medias<-ifelse(is.na(BD1$bill_length_mm), mean(BD1$bill_length_mm, na.rm=TRUE), BD1$bill_length_mm)  
+```
+7.4.- Visualización de la nueva columna (bill_length_mm)
+```{r}
+str(BD1)
+```
+7.5.- Repetir el paso 7.2 en las variables que tengan datos perdidos.
+
+**Media aritmética de bill_depth_mm**
+```{r}
+mean(BD$bill_depth_mm, na.rm = TRUE)
+```
+**Reemplazo de datos perdidos de bill_depth_mm**
+```{r}
+BD1$bill_depth_mm_medias<-ifelse(is.na(BD1$bill_depth_mm), mean(BD1$bill_depth_mm, na.rm = TRUE), BD1$bill_depth_mm)
+```
+
+**Visualización de la nueva variable**
+```{r}
+str(BD1)
+```
+
+**Media aritmética de flipper_length_mm**
+```{r}
+mean(BD$flipper_length_mm, na.rm = TRUE)
+```
+
+**Reemplazo de los datos perdidos de flipper_length_mm**
+```{r}
+BD1$flipper_length_mm_medias<-ifelse(is.na(BD1$flipper_length_mm), mean(BD1$flipper_length_mm, na.rm = TRUE), BD1$flipper_length_mm)
+```
+
+**Visualización de la nueva variable**
+```{r}
+str(BD1)
+```
+
+**Media aritmética de body_mass_g**
+```{r}
+mean(BD$body_mass_g, na.rm = TRUE)
+```
+
+**Reemplazo de datos faltantes de body_mass_g**
+```{r}
+BD1$body_mass_g_medias<-ifelse(is.na(BD1$body_mass_g), mean(BD1$body_mass_g, na.rm = TRUE), BD1$body_mass_g)
+```
+
+**Visualización de la nueva variable**
+```{r}
+str(BD1)
+```
+
