@@ -1,0 +1,193 @@
+---
+title: "Codificación de Variables"
+author: "Linda Estefany Bravo López"
+date: "22/11/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ************* RECODIFICACION DE VARIABLES **********
+
+# ***********************************************
+# Importación de matriz 
+# ***********************************************
+
+# 1.-Lectura de la matriz
+
+
+```{r}
+BD <-read.csv ("BD1.csv")
+```
+
+# 2.-Seleccionar las columnas 2 a la 9
+
+
+```{r}
+BD1 <-BD [, 2: 9]
+```
+
+# 3.- Se obtiene una copia de la matriz
+
+
+```{r}
+BD2 <-BD1
+```
+
+
+# *******************************************
+# Renombrar variables 
+# *******************************************
+
+# 1.- Visualización del nombre de las variables 
+
+
+```{r}
+colnames (BD1)
+```
+
+
+# 2.- Renombrar las variables en orden de las columnas.
+
+
+```{r}
+names (BD2) = c ("Especies", "Isla", "Largo_pico_mm", "Ancho_pico_mm", "Largo_aleta_mm",
+                   "Masa_corporal_g", "Sexo", "Año")
+```
+
+
+# 3.- Se vuelve a visualizar los nombres de las variables
+
+
+```{r}
+colnames (BD2)
+```
+
+# *********************************************** *****************************
+# Tratamiento de las variables cualitativas 
+# *********************************************** *****************************
+
+# 1.-Factor
+
+#a) Verificar el orden de la variable
+
+
+```{r}
+str (BD2 $ Especies)
+BD2 $ Especies
+```
+
+
+# 1) Especie variable: originalmente está como caracter, pero se requiere convertir un factor de 3 niveles.
+
+```{r}
+BD2$Especies<-factor (BD2 $ Especies,
+                         levels = c ("Adelie", "Gentoo", "Chinstrap"))
+```
+
+
+# Se verifica que la variable sea un factor.
+
+
+```{r}
+str (BD2 $ Especies)
+```
+
+
+# 2) Isla variable
+
+
+```{r}
+str (BD2 $ Isla)
+BD2 $ Isla
+BD2 $ Isla <-factor (BD2 $ Isla,
+                     levels = c ("Torgersen", "Sueño", "Biscoe"))
+str (BD2 $ Isla)
+```
+
+
+# 3) Sexo variable
+
+
+```{r}
+BD2$Sexo
+BD2$Sexo<-factor(BD2$Sexo,
+                     levels = c ("male", "female"),
+                     labels = c ("Masculino", "Femenino"))
+str (BD2$Sexo)
+```
+
+
+# 4) Año variable
+
+
+```{r}
+BD2 $ Año
+BD2 $ Año <-factor (BD2 $ Año, levels = c ("2007", "2008", "2009"))
+str (BD2 $ Año)
+```
+
+
+# Para obtener los estadísticos descriptivos de las variables
+
+
+```{r}
+summary(BD2)
+```
+
+
+# Guardar matriz de datos final
+
+
+```{r}
+BD3 <-as.data.frame(BD2)
+```
+
+
+# Activar la librería para realizar los gráficos
+
+
+```{r}
+library (ggplot2)
+```
+
+
+# Gráfico boxplot de exploración 
+
+
+```{r}
+color = c ("deepskyblue1", "magenta")
+BX <-ggplot (BD3, aes (x = Sexo, y = Ancho_pico_mm)) +
+  geom_boxplot (fill = color) +
+  ggtitle ("Boxplot") +
+  xlab ("Sexo") +
+  ylab ("Ancho del pico (mm)")
+BX
+```
+
+
+# Gráfico de dispersión
+
+
+```{r}
+DD <-ggplot (BD3, aes (Masa_corporal_g, Ancho_pico_mm)) +
+  geom_point (aes (color = Isla)) +
+  labs (title = "Gráfico de dispersión") +
+  xlab ("Peso") +
+  ylab ("Largo de la aleta (mm)") +
+  theme_light ()
+DD
+```
+
+
+
+# **NOTA:** ggplot reconoce que masa corporal es el eje *"x"* y el ancho del pico es el eje *"y"*
+
+
+# Guardar la matriz de datos 
+
+```{r}
+write.csv ( BD3 , " BD3_penguins.csv " )
+```
