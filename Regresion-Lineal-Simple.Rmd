@@ -1,0 +1,123 @@
+---
+title: "Regresión Lineal Simple"
+author: "Linda Estefany Bravo López"
+date: "23/11/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Es una técnica estadística para crear modelos de variables continuas con ayuda de una función predictora. Nos ayuda a predecir y comprender el comportamiento de sistemas complejos, mediante la generación de modelos matemáticos.
+
+
+Se parte de la ecuación: $$Y = beta0 + beta1(X1)+e$$
+
+
+donde: 
+
+
+Y = es la variable dependiente o variable respuesta
+
+
+beta0 = es la intersección o término constante
+
+
+beta1 = son los parámetros del modelo
+   
+
+X1 = es la variable explicativa o independiente
+
+
+e = error estandar del residual
+
+
+Librerías.
+
+
+```{r}
+library(graphics)
+library(ggplot2)
+```
+
+
+Lectura de matriz de datos.
+
+
+1.- Lectura de los datos
+
+```{r}
+BD<-read.csv("BD3_penguins.csv")
+BD$Especies
+```
+
+
+2.- Seleccionar la sección de la especie **Adelie** y de la columna 4 a la 7.
+
+```{r}
+adelie<-BD[1:152,4:7]
+```
+
+
+Generación del gráfico de dispersión.
+
+
+```{r}
+pairs(adelie)
+```
+
+
+Cálculo de la correlación de Pearson.
+
+```{r}
+cor(adelie)
+```
+
+
+Cálculo y representación de la recta de mínimos cuadrados.
+
+
+1.- Se genera el cálculo de la recta con las varaibles que tienen mayor correlación.
+
+
+```{r}
+regresion<-lm(adelie$Masa_corporal_g~adelie$Ancho_pico_mm, data=adelie)
+```
+
+
+2.- Se visualiza el resultado de los cálculos.
+
+
+```{r}
+summary(regresion)
+```
+
+
+3.- Interpretacion del modelo
+
+
+Los parámetros de la ecuación de la recta de mínimos cuadrados que relaciona la masa corporal y el ancho del pico se localizan en la columna *"ESTIMATE"*. para esto el estimador *beta0* es de -281.86, *beta1* es de 217.09 y el *error standar del residual* es 374.8.
+
+
+Por lo tanto, la ecuación del modelo quedaría del siguiente modo: $$ Y = -281.86 + 217.09x + 374.8 $$
+
+
+Visto de otro modo: $$ Ancho del pico = -281.86 + 217.09(masacorporal) + 374.8 $$
+
+
+Sin embargo, R^2^ (multiple R-squared) es de 0.3318,lo que significa que **NO** se trata de un buen modelo.
+
+
+Generación del gráfico con la línea de regresión.
+
+
+```{r}
+ggplot(adelie, aes(x=Masa_corporal_g, y=Ancho_pico_mm))+
+  geom_point()+
+  geom_smooth(method = "lm", formula=y~x, se=FALSE, col="dodgerblue1")+
+  theme_light()
+```
+
+
