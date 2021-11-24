@@ -1,0 +1,69 @@
+---
+title: "Ejercicio de Normalidad"
+author: "Linda Estefany Bravo López"
+date: "24/11/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.- Lectura de datos.
+
+```{r}
+datos <-datasets::rivers
+```
+
+
+Si requiere información adicional sobre la matriz, utiliza el comando de ayuda.
+
+
+```{r}
+? rivers
+```
+
+
+2.- Anota el comando y respondedor las preguntas
+
+
+a) Genera el histograma.
+
+
+```{r}
+library(stats)
+library(nortest)
+hist(rivers)
+```
+
+
+b) ¿Cuántas observaciones tiene la matriz de datos "rivers"?
+
+
+```{r}
+View(datos)
+```
+
+
+Cuenta con 141 observaciones.
+
+
+c) ¿Qué prueba de normalidad vas a emplear?
+
+
+Se empleará la pruena de normalidad de KOLMOGOROV-SMIRNOV ya que se observan más de 50 datos.
+
+
+d) Realiza la prueba de normalidad.
+
+
+```{r}
+lillie.test(rivers)
+```
+
+
+e) Anota la interpretación.
+
+
+El *p-valor*= 0.000000000000000022, es **menor** a 0.05. Por lo tanto, **RECHAZO Ho**.
+Los datos siguen una distribución diferente a la normal.
